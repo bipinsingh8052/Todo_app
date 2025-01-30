@@ -13,15 +13,37 @@ const InserPage=async(req,res)=>{
     res.send(data);
     // res.send("INsert page")
 }
-const deletePage =(req,res)=>{
-    req.send("Delete page")
+const deletePage =async(req,res)=>{
+    let id = req.params.id;
+    const data =await todoMongoose.findByIdAndDelete(id)
+res.send("deleted succefful")
 }
-const updatepage=(req,res)=>{
-    req.send("update page")
+const updatepage=async(req,res)=>{
+    const id =req.params.id;
+    // const id =req.params.id;
+    const {title,description}=req.body
+    const data =await todoMongoose.findByIdAndUpdate
+    (
+        {_id:id},
+        {title,description,updateAt:Date.now()}
+    );
+
+    res.send(data)
+}
+
+// fetch data from id  you can also say it search data from id  
+// search from Url in this code main work
+// 
+const searchPage=async(req,res)=>{
+    const id =req.params.id;
+    // const id =req.params;
+    const data  = await todoMongoose.findById({_id: id})
+    res.send(data)
 }
 module.exports={
     homePage,
     InserPage,
     deletePage,
-    updatepage
+    updatepage,
+    searchPage
 }
